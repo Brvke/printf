@@ -50,6 +50,27 @@ int _printf(const char *format, ...)
 				write(1, str, str_len);
 				printc += str_len;
 			}
+			else if (*format == 'i')
+			{
+				char *str;
+				unsigned long int c = va_arg(argsbox, int);
+				unsigned long int n = c;
+				while (n != 0)
+				{
+					len++;
+					n /= 10;
+				}
+				str = malloc((sizeof(char) * len) + 1);
+				for (i = 0; i < len; i++)
+				{
+					rem = c % 10;
+					c = c / 10;
+					str[len - (i + 1)] = rem + '0';
+				}
+				str[len] = '\0';
+				write(1, str, strlen(str));
+				free(str);
+			}
 		}
 		format++;
 	}
